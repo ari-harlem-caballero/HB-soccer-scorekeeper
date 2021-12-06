@@ -28,8 +28,8 @@ nameForm.addEventListener('submit', (e) => {
     name1 = data.get('name-1');
     name2 = data.get('name-2');
     // reset the form values
-    teamOneLabel.textContent = 'name1';
-    teamTwoLabel.textContent = 'name2';
+    teamOneLabel.textContent = name1;
+    teamTwoLabel.textContent = name2;
 
     displayCurrentGameEl();
 });
@@ -60,6 +60,7 @@ teamTwoSubtractButton.addEventListener('click', () => {
 });
 
 finishGameButton.addEventListener('click', () => {
+    nameForm.reset();
     // add the current game to an array of games in state.
     // HINT: it will be helpful to keep track of these games as objects with 4 properties, one for each piece of state we're tracking
     const game = {
@@ -70,12 +71,12 @@ finishGameButton.addEventListener('click', () => {
     };
     
     pastGamesArray.push(game);
-    console.log(pastGamesArray);
-    
+
     displayAllGames();
     
     // reset the initial state to start with a new form
-    FormData.reset();
+    teamOneLabel.textContent = '';
+    teamTwoLabel.textContent = '';
 
     displayCurrentGameEl();
 });
@@ -83,13 +84,18 @@ finishGameButton.addEventListener('click', () => {
 
 function displayCurrentGameEl() {
     // clear out the current game div
-
+    pastGamesEl.textContent = '';
     // change the label to show team one's name;
     teamOneLabel.textContent = name1;
     // change the label to show team two's name;
     teamTwoLabel.textContent = name2;
     // call the render game function to create a game element
-    
+
+    for (let pastGame of pastGamesArray) {
+        const container = renderGame(pastGame);
+
+        pastGamesEl.append(container);
+    }
     // append the element to the cleared out current game div
 }
 
