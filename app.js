@@ -62,6 +62,7 @@ teamTwoSubtractButton.addEventListener('click', () => {
 finishGameButton.addEventListener('click', () => {
     // add the current game to an array of games in state.
     // HINT: it will be helpful to keep track of these games as objects with 4 properties, one for each piece of state we're tracking
+    console.log(finishGameButton);
     const currentGame = {
         name1: name1,
         name2: name2,
@@ -109,7 +110,7 @@ function displayAllGames() {
     // clear out the past games list in the DOM
     pastGamesEl.textContent = '';
     // loop through the past games in state
-    for (let game of pastGames) {
+    for (let game of pastGamesArray) {
         const gameEl = renderGame(game);
 
         pastGamesEl.append(gameEl);
