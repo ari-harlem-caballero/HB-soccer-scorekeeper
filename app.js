@@ -1,6 +1,6 @@
 // import functions and grab DOM elements
 import { renderGame } from './render-utils.js';
-const currentGameEl = document.getElementById('current-game-container');
+const currentGamesEl = document.getElementById('current-game-container');
 const pastGamesEl = document.getElementById('past-games-container');
 
 const nameForm = document.getElementById('name-form');
@@ -25,8 +25,8 @@ nameForm.addEventListener('submit', (e) => {
     // get the name data from the form
     const data = new FormData(nameForm);
     // set the state to this data from the form
-    name1 = data.get('name-1');
-    name2 = data.get('name-2');
+    name1 = data.get('team-one');
+    name2 = data.get('team-two');
     // reset the form values
     teamOneLabel.textContent = name1;
     teamTwoLabel.textContent = name2;
@@ -60,23 +60,25 @@ teamTwoSubtractButton.addEventListener('click', () => {
 });
 
 finishGameButton.addEventListener('click', () => {
-    nameForm.reset();
     // add the current game to an array of games in state.
     // HINT: it will be helpful to keep track of these games as objects with 4 properties, one for each piece of state we're tracking
-    const game = {
+    console.log(finishGameButton);
+    const currentGame = {
         name1: name1,
         name2: name2,
         score1: score1,
         score2: score2,
     };
     
-    pastGamesArray.push(game);
+    pastGamesArray.push(currentGame);
 
     displayAllGames();
     
     // reset the initial state to start with a new form
-    teamOneLabel.textContent = '';
-    teamTwoLabel.textContent = '';
+    name1 = '';
+    name2 = '';
+    score1 = 0;
+    score2 = 0;
 
     displayCurrentGameEl();
 });
@@ -84,27 +86,37 @@ finishGameButton.addEventListener('click', () => {
 
 function displayCurrentGameEl() {
     // clear out the current game div
-    pastGamesEl.textContent = '';
+    currentGamesEl.textContent = '';
     // change the label to show team one's name;
     teamOneLabel.textContent = name1;
     // change the label to show team two's name;
     teamTwoLabel.textContent = name2;
     // call the render game function to create a game element
 
-    for (let pastGame of pastGamesArray) {
-        const container = renderGame(pastGame);
+    const newGame = {
+        name1: name1,
+        name2: name2,
+        score1: score1,
+        score2: score2,
+    };
 
-        pastGamesEl.append(container);
-    }
+    const newGameEl = renderGame(newGame);
     // append the element to the cleared out current game div
+    currentGamesEl.append(newGameEl);
 }
 
 
 function displayAllGames() {
     // clear out the past games list in the DOM
-
+    pastGamesEl.textContent = '';
     // loop through the past games in state
+    for (let game of pastGamesArray) {
+        const gameEl = renderGame(game);
+
+        pastGamesEl.append(gameEl);
+    }
     // render and append a past game for each past game in state
+
 }
 
 
